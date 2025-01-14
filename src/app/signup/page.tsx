@@ -8,10 +8,10 @@ export default function SignUp() {
     const[user, setUser] = React.useState({
         email:"",
         password: "",
-       
+        username:"",
     })
 
-    const onLogin = async() => {
+    const onSignup = async() => {
 
     } 
     
@@ -19,8 +19,17 @@ export default function SignUp() {
 
     return(
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <h1 className="mb-7 text- font-fold">Login</h1>
+            <h1 className="mb-7 text- font-fold">Signup</h1>
             <hr/>
+            <label htmlFor="username">Username</label>
+            <input
+            className="p-2 border-gray-300 rounded-lg focus:outline-none focus:outline-gray-400"
+            id="username"
+            type='text'
+            value={user.username}
+            onChange={(e) => setUser({...user, username:e.target.value})}
+            placeholder="username"
+            />
             
             <label htmlFor="email">Email</label>
             <input
@@ -43,10 +52,10 @@ export default function SignUp() {
             />
 
             <button 
-            onClick={onLogin}
+            onClick={onSignup}
             className="p-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 mt-4"
-            >Login here</button>
-            <Link href="/signup">Visit Signup page</Link>
+            >Signup</button>
+            <Link href="/login">Visit login page</Link>
         </div>
         
     )
