@@ -49,7 +49,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
                 </p>
                 <p>
                     ${process.env.DOMAIN}/${
-                emailType === "VERIFY" ? "verifyemail" : "resetpassword"
+                emailType === "VERIFY" ? "verifyemail" : "forgotpassword/resetpassword"
             }?token=${hashedToken}
                 </p>
                 <p>
