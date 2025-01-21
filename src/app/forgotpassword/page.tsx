@@ -14,7 +14,7 @@ export default function ForgotPassword(){
     setLoading(true);
     try{
     console.log("from frontend: ",email);
-    await axios.post('/api/users/forgetpassword', {email})
+    await axios.post('/api/users/forgetpassword/validate', {email})
     toast.success('Email sent successfully');
     }catch(error: any){
     toast.error(error.message);
