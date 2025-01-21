@@ -1,31 +1,35 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest){
-    const path = request.nextUrl.pathname
-    const isPublicPath = path === '/login' || path === '/signup' || path === '/verifyemail'
+export function middleware(request: NextRequest) {
+    const path = request.nextUrl.pathname;
 
-    // Note to self: Extract the token from cookies. If not present, default to an empty string.
-   // Optional chaining (?.) prevents errors if the cookie is not found (undefined).
-  // The || '' ensures token is always a string (either the token value or an empty string).
+    // Define public paths
+    const isPublicPath =
+        path === '/login' ||
+        path === '/signup' ||
+        path === '/verifyemail' ||
+        path === '/forgotpassword' ||
+        path.startsWith('/forgotpassword/validate') ||
+        path.startsWith('/forgotpassword/resetpassword');
+
+    // Extract the token from cookies
     const token = request.cookies.get('token')?.value || '';
+
     console.log('Path:', path);
     console.log('Token:', token, 'Is Public Path:', isPublicPath);
 
-    // console.log("token in middleware", token);
-
-    //
+    // Redirect logged-in users away from public paths
     if (token && isPublicPath) {
-        // console.log("fired in public")
         return NextResponse.redirect(new URL('/', request.nextUrl));
     }
 
-    if(!isPublicPath && !token){
-        // console.log("fired in private")
-        return NextResponse.redirect(new URL('/login', request.nextUrl))
+    // Redirect users without a token away from private paths
+    if (!isPublicPath && !token) {
+        return NextResponse.redirect(new URL('/login', request.nextUrl));
     }
 
-    // If token exists, proceed with the request
+    // Allow the request to proceed if no conditions are met
     return NextResponse.next();
 }
 
@@ -35,8 +39,9 @@ export const config = {
         '/profile',
         '/login',
         '/signup',
-        '/verifyemail'
-        
-      ]
-      
-}
+        '/verifyemail',
+        '/forgotpassword',
+        '/forgotpassword/validate',
+        '/forgotpassword/resetpassword',
+    ],
+};
